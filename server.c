@@ -29,7 +29,7 @@ int main() {
   }
 
   // Socket options. Optional, but useful
-  if (setsockopt(serverfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+  if (setsockopt(serverfd, SOL_SOCKET, SO_REUSEADDR,
                  &opt, sizeof(opt))) {
     perror("Error setting socket options.");
     exit(EXIT_FAILURE);
