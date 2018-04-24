@@ -1,3 +1,4 @@
+
 // TODO: http://www.microhowto.info/howto/listen_for_and_accept_tcp_connections_in_c.html
 // Based on https://www.geeksforgeeks.org/socket-programming-cc/
 #include <stdio.h>
@@ -21,7 +22,7 @@ int main() {
   int server_backlog = 5; // Backlog of received messages.
 
   char buffer[1024];
-  char *message = "Hello from server.";
+  char *message = "Hello from C server.";
 
   if ((serverfd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
     perror("Error creating socket.");

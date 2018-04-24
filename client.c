@@ -19,7 +19,7 @@ int main() {
   int valread;
 
   char buffer[1024];
-  char *message = "Hello from client.";
+  char *message = "Hello from C client.";
 
   if ((connectionfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
     perror("Error creating socket.");
