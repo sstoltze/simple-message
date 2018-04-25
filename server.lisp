@@ -2,24 +2,11 @@
 
 (ql:quickload :usocket)
 
-;(load "socket-util.lisp")
-(defun read-socket-line (stream)
-  (do ((c (read-char-no-hang stream) (read-char-no-hang stream))
-       (res (list)))
-      ((null c) (coerce (reverse res) 'string))
-    (push c res)))
+(load "socket-util.lisp")
 
-;(defun read-socket-line (stream)
-;  (coerce (loop while (listen stream)
-;             collect (read-char stream))
-;          'string)
-;  (clear-input stream)
-;  )
-
-(defconstant +port+ 8080)
-
-(defun socket-server ()
-  (usocket:with-socket-listener (server "127.0.0.1" +port+)
+(defun server ()
+  (usocket:with-socket-listener (server +localhost+ +port+
+                                        :reuse-address t)
     (usocket:with-connected-socket (connection (usocket:socket-accept server))
       (let ((stream (usocket:socket-stream connection)))
         (format t "Reading message:~%")

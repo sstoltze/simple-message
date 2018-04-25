@@ -4,19 +4,10 @@
 ;; https://analogreader.wordpress.com/2015/07/13/socket-programming-in-common-lisp-how-to-use-usockets-with-macros/
 (ql:quickload :usocket)
 
-;(load "socket-util.lisp")
-(defun read-socket-line (stream)
-  (do ((c (read-char-no-hang stream) (read-char-no-hang stream))
-       (res (list)))
-      ((null c) (coerce (reverse res) 'string))
-    (push c res)))
-;   (loop collect (read-char stream))
-;          'string)
-;  (clear-input stream)
-;  )
+(load "socket-util.lisp")
 
-(defun socket-client ()
-  (usocket:with-client-socket (client stream "127.0.0.1" 8080)
+(defun client ()
+  (usocket:with-client-socket (client stream +localhost+ +port+)
     (format t "Sending message.~%")
     (format stream "Hello from lisp client.")
     (force-output stream)
