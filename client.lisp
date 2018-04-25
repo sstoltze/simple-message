@@ -6,7 +6,11 @@
 
 (load "socket-util.lisp")
 
-(defun client ()
+(defun send-socket (s &rest args)
+  (apply #'format s args)
+  (force-output s))
+
+(defun minimal-client ()
   (usocket:with-client-socket (client stream +localhost+ +port+)
     (format t "Sending message.~%")
     (format stream "Hello from lisp client.")
@@ -14,4 +18,22 @@
     (format t "Message received:~%")
     (format t "~A~%" (read-socket-line stream))))
 
+(defun client-listener ()
+  (usocket:with-client-socket (client stream +localhost+ +port+)
+    (loop
+       (format t "~A~%" (read-socket-line stream)))))
+
+(defun client-sender ()
+    (usocket:with-client-socket (client stream +localhost+ +port+)
+      (loop
+         (send-socket stream "~A~%" (read-line)))))
+
+(defun client ()
+  (usocket:with-client-socket (client stream +localhost+ +port+)
+    ;; Input
+    (loop
+       (format stream "Test")
+       (format t "~A~%" (read-socket-line stream)))
+    ;; Print
+    ))
 
