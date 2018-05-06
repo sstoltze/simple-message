@@ -45,8 +45,13 @@ int main() {
 
   send(connectionfd, message, strlen(message), 0);
   printf("Message sent.\n");
-  valread = read(connectionfd, buffer, 1024);
-  printf("%s\n", buffer);
+  valread = read(connectionfd, buffer, 1023);
+  if (valread != SO_ERROR) {
+    buffer[valread] = '\0';
+    printf("%s\n", buffer);
+  } else {
+    printf("Error receiving message.\n");
+  }
 
   close(connectionfd);
     
