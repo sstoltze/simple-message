@@ -2,3 +2,8 @@
 *.exe
 c-*
 lisp-*
+cpp-*
+GPATH
+GRTAGS
+GTAGS
+
