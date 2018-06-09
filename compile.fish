@@ -1,2 +1,2 @@
-gcc server.c -o c-server
-gcc client.c -o c-client
+gcc test-server.c -o c-test-server
+gcc test-client.c -o c-test-client
