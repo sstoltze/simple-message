@@ -3,6 +3,9 @@
 c-*
 lisp-*
 cpp-*
+ocaml-*
+*.cmo
+*.cmi
 GPATH
 GRTAGS
 GTAGS
