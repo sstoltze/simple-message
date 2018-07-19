@@ -50,7 +50,7 @@ int main() {
   struct sockaddr_in address;
   socklen_t addrlen = sizeof(address);
   int serverfd;
-  int valread;
+  //int valread;
   int opt = 1;
   int server_backlog = 5; // Backlog of received messages.
 
@@ -59,7 +59,7 @@ int main() {
   int number_of_connections = 0;
   int max_connections = 1;
   int *connectionfds = malloc(sizeof(int)*max_connections);
-  char *message = "Hello from C server.";
+  //char *message = "Hello from C server.";
 
   if ((serverfd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
     perror("Error creating socket.");
