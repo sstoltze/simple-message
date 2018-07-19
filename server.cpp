@@ -80,6 +80,7 @@ public:
       printf("%s\n", buffer);
       return buffer;
     }
+    return NULL;
   }
 
   bool server_send(char *message) {
@@ -112,4 +113,5 @@ int main() {
   s.server_accept();
   char *buff = s.server_read();
   s.server_send(buff);
+  return 0;
 }
