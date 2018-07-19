@@ -13,7 +13,7 @@
 #define PORT 8080
 
 int main() {
-  struct sockaddr_in address;
+  //struct sockaddr_in address;
   struct sockaddr_in server_addr;
   int connectionfd;
   int valread;
@@ -54,6 +54,6 @@ int main() {
   }
 
   close(connectionfd);
-    
+
   return 0;
 }
