@@ -1,9 +1,12 @@
 # Ignore exe
 *.exe
+*.o
 c-*
 lisp-*
 cpp-*
+ocaml-*
+*.cmo
+*.cmi
 GPATH
 GRTAGS
 GTAGS
-
