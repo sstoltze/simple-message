@@ -14,7 +14,7 @@
 #define PORT 8080
 
 char *resize_buffer(char *buff, int new_size) {
-  buff = (char *)realloc(buff, new_size*sizeof(char));
+  buff = realloc(buff, sizeof(*buff)*new_size);
   return buff;
 }
 
@@ -28,7 +28,7 @@ char *server_read(int connectionfd, char *buffer, int *size) {
   if (valread == 0) {
     return NULL;
   }
-  if (valread != SO_ERROR) {
+  if (valread != SO_ERROR && valread >= 1) {
     buffer[valread] = '\0';
   }
   else {
@@ -38,6 +38,7 @@ char *server_read(int connectionfd, char *buffer, int *size) {
 }
 
 void server_send(int *connectionfds, int num_connections, char *message) {
+  printf("Sending message.\n");
   size_t mess_len = strlen(message);
   for (int i=0;i < num_connections; i++) {
     send(connectionfds[i], message, mess_len, 0);
@@ -54,10 +55,10 @@ int main() {
   int server_backlog = 5; // Backlog of received messages.
 
   int buffer_size = 1024;
-  char *buffer = (char *)malloc(buffer_size*sizeof(char));
+  char *buffer = malloc(sizeof(char)*buffer_size);
   int number_of_connections = 0;
   int max_connections = 1;
-  int *connectionfds = (int *)malloc(max_connections*sizeof(int));
+  int *connectionfds = malloc(sizeof(int)*max_connections);
   char *message = "Hello from C server.";
 
   if ((serverfd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -98,8 +99,11 @@ int main() {
   struct timeval tv;
   int retval;
 
-  while(1) {
-    printf("Test.\n");
+  int loop = 1;
+
+  // Main loop
+  while(loop) {
+    printf("Running.\n");
     // New connections
     FD_ZERO(&rfds);
     FD_SET(serverfd, &rfds);
@@ -108,10 +112,11 @@ int main() {
     retval = select(FD_SETSIZE, &rfds, NULL, NULL, &tv);
     if (retval == -1) {
       printf("Error, server.\n");
+      loop = 0;
       break;
     } else {
       if (FD_ISSET(serverfd, &rfds)) {
-        printf("Server.\n");
+        printf("New connection.\n");
         if ((connectionfds[number_of_connections] = accept(serverfd, (struct sockaddr *)&address,
                                                            &addrlen)) < 0) {
           perror("Error accepting.");
@@ -120,7 +125,7 @@ int main() {
         number_of_connections++;
         if (number_of_connections == max_connections) {
           max_connections *= 2;
-          connectionfds = (int *)realloc(connectionfds, max_connections*sizeof(int));
+          connectionfds = realloc(connectionfds, sizeof(*connectionfds)*max_connections);
         }
         printf("Connection established.\n");
       } else  {
@@ -142,16 +147,18 @@ int main() {
     } else {
       for (int i = 0;i<number_of_connections;i++) {
         if (FD_ISSET(connectionfds[i], &rfds)) {
-          printf("Message received.\n");
+          printf("Message received from connection %d.\n", i);
           buffer = server_read(connectionfds[i], buffer, &buffer_size);
           if (buffer != NULL) {
             printf("Sending message: %s\n", buffer);
             server_send(connectionfds, number_of_connections, buffer);
           } else {
             printf("Error receiving message.\n");
-            close(connectionfds[i]);
+            //connectionfds = server_close(connectiondfds, i);
+            //close(connectionfds[i]);
             // Make code to handle closing sockets...
-            break;
+            //loop = 0;
+            //break;
           }
         }
       }
