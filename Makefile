@@ -1,3 +1,6 @@
+.DEFAULT_GOAL = all
+.PHONY: all clean clean-% test c c-%
+
 GCC = gcc
 FLAGS = -I . -Wall
 
@@ -7,9 +10,9 @@ all: test c
 
 c: c-server #c-client
 c-%: c-%.o
-	${CC} -o $* $*.o
+	${CC} -o c-$* c-$*.o
 c-%.o: %.c
-	${CC} -c $*.c
+	${CC} -o c-$*.o -c $*.c
 
 test: test-server test-client
 test-server: test-server.o
