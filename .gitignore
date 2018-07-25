@@ -1,5 +1,7 @@
 # Ignore exe
 *.exe
+test-server
+test-client
 *.o
 c-*
 lisp-*

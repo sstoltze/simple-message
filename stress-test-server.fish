@@ -1,3 +1,3 @@
 for i in (seq 100)
-    ./c-minimal
+    ./test-client
 end
