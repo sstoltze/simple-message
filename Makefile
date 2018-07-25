@@ -1,17 +1,19 @@
+.DEFAULT_GOAL = all
+.PHONY: all clean clean-% test
+
 GCC = gcc
 GPP = g++
 FLAGS = -I . -Wall
-
 CC = ${GCC} ${FLAGS}
-CPP = ${GPP} ${FLAGS}
+CXX = ${GPP} ${FLAGS}
 
 all: test cpp
 
 cpp: cpp-server # cpp-client
 cpp-%: cpp-%.o
-	${CPP} -o cpp-$* cpp-$*.o
+	${CXX} -o cpp-$* cpp-$*.o
 cpp-%.o: %.cpp
-	${CPP} -c -o cpp-$*.o $*.cpp
+	${CXX} -c -o cpp-$*.o $*.cpp
 
 test: test-server test-client
 test-%.o: test-%.c
