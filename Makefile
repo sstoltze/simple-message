@@ -3,7 +3,6 @@
 
 GCC = gcc
 FLAGS = -I . -Wall
-
 CC = ${GCC} ${FLAGS}
 
 all: test
@@ -19,5 +18,6 @@ test-%: test-%.o
 clean: clean-test
 clean-test: clean-o
 	rm -rf test-server test-client
+	rm -rf test-server.exe test-client.exe
 clean-o:
 	rm -rf *.o
