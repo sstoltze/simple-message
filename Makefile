@@ -1,11 +1,14 @@
 .DEFAULT_GOAL = all
-.PHONY: all clean clean-% test c c-%
+.PHONY: all clean clean-% test c c-% debug
 
 GCC = gcc
 FLAGS = -I . -Wall
 CC = ${GCC} ${FLAGS}
 
 all: test c
+
+debug: FLAGS += -g
+debug: clean all
 
 c: c-server #c-client
 c-%: c-%.o
